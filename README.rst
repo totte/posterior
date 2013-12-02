@@ -1,8 +1,10 @@
 Overview
 ========
 
-Pluck aims at providing a python module capable of parsing pacman packages
-and PKGBUILDs.
+Pluck aims at providing a Python module capable of parsing Pacman packages
+and PKGBUILDs as well as the repositories and databases designed to provide
+them. Originally created as 'Parched' by Sebastian Nowicki, this fork is an
+intent to continue the work and extend the provided functionality.
 
 Installing
 ==========

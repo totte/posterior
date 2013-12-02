@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 # Copyright (c) 2013 H W Tovetjärn
 # Copyright (c) 2009 Sebastian Nowicki
 # 
@@ -139,7 +142,7 @@ class PacmanPackage(Package):
     To instantiate a :class:`PacmanPackage` object, pass the package's file
     path in the constructor::
 
-        >>> import pluck
+        >>> import acumen
         >>> package = PacmanPackage("foo-1.0-1-any.tar.gz")
 
     If *tarfileobj* is specified, it is used as an alternative to a
@@ -258,7 +261,7 @@ class PacmanPackage(Package):
         if self.version:
             self.version, _, self.release = self.version.rpartition('-')
             self.release = int(self.release)
-        if self.packager == 'Uknown Packager':
+        if self.packager == 'Unknown Packager':
             self.packager = None
 
 
@@ -271,7 +274,7 @@ class PKGBUILD(Package):
     To instantiate a :class:`PacmanPackage` object, pass the package's file
     path in the constructor::
 
-        >>> import pluck
+        >>> import acumen
         >>> package = PKGBUILD("PKGBUILD")
 
     If *fileobj* is specified, it is used as an alternative to a

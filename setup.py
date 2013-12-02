@@ -1,12 +1,12 @@
 from distutils.core import setup
 
-setup(name='pluck',
+setup(name='acumen',
     version='0.1',
     description="Pacman repository, package and PKGBUILD library",
     author="H W Tovetjärn",
     author_email="totte@tott.es",
-    url="http://www.github.com/totte/pluck",
-    py_modules=['pluck'],
+    url="http://www.github.com/totte/acumen",
+    py_modules=['acumen'],
     classifiers=['Development Status :: 2 - Pre-Alpha',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',

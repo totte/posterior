@@ -24,7 +24,7 @@ from datetime import datetime
 import time
 from StringIO import StringIO # cStringIO.StringIO can't be subclassed
 
-import pluck
+import acumen
 
 class FileMock(StringIO):
     def __init__(self, buffer, name=None):
@@ -192,7 +192,7 @@ class PacmanPackageTest(unittest.TestCase):
         tarfile = TarFileMock()
         tarfile.add(self.package.as_file())
         tarfile.add(FileMock("foo", "foo.txt"))
-        target = pluck.PacmanPackage(tarfileobj=tarfile)
+        target = acumen.PacmanPackage(tarfileobj=tarfile)
 
         self.assertEquals(self.package.name, target.name)
         self.assertEquals(self.package.version, target.version)
@@ -244,7 +244,7 @@ class PKGBUILDTest(unittest.TestCase):
         self.package.install = 'test.install'
 
     def test_sane_package(self):
-        target = pluck.PKGBUILD(fileobj=self.package.as_file())
+        target = acumen.PKGBUILD(fileobj=self.package.as_file())
         self.assertEquals(self.package.name, target.name)
         self.assertEquals(self.package.version, target.version)
         self.assertEquals(self.package.release, target.release)
@@ -276,7 +276,7 @@ class PKGBUILDTest(unittest.TestCase):
             makedepends(funky_town # got to get funky!
                 pan)
         """)
-        target = pluck.PKGBUILD(fileobj=pkgbuild)
+        target = acumen.PKGBUILD(fileobj=pkgbuild)
         self.assertEquals(['foo', 'baz'], target.sources)
         self.assertEquals(['eggs', 'spam', 'pancakes'], target.depends)
 
@@ -285,7 +285,7 @@ class PKGBUILDTest(unittest.TestCase):
             '$url/files/$pkgname-$pkgver.tar.gz',
             '${url}/files/${pkgname}_doc-$pkgver.tar.gz'
         ]
-        target = pluck.PKGBUILD(fileobj=self.package.as_file())
+        target = acumen.PKGBUILD(fileobj=self.package.as_file())
         values = (self.package.url, self.package.name, self.package.version)
         parsed_sources = [
             '%s/files/%s-%s.tar.gz' % values,
@@ -298,7 +298,7 @@ class PKGBUILDTest(unittest.TestCase):
             _pkgname=Foobar
             sources=($_pkgname.tar.gz)
         """)
-        target = pluck.PKGBUILD(fileobj=pkgbuild)
+        target = acumen.PKGBUILD(fileobj=pkgbuild)
         self.assertEquals(["Foobar.tar.gz"], target.sources)
 
     def test_skip_function(self):
@@ -308,7 +308,7 @@ class PKGBUILDTest(unittest.TestCase):
                 pkgname=bar
             }
         """)
-        target = pluck.PKGBUILD(fileobj=pkgbuild)
+        target = acumen.PKGBUILD(fileobj=pkgbuild)
         self.assertEquals("foo", target.name)
 
 

@@ -1,9 +1,9 @@
 .. _index:
 
-:mod:`pluck`
+:mod:`acumen`
 ==============
 
-.. automodule:: pluck
+.. automodule:: acumen
 .. autoclass:: Package
     :members:
 

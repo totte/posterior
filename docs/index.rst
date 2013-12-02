@@ -1,9 +1,9 @@
 .. _index:
 
-:mod:`parched`
+:mod:`pluck`
 ==============
 
-.. automodule:: parched
+.. automodule:: pluck
 .. autoclass:: Package
     :members:
 

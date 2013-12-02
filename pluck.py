@@ -1,3 +1,4 @@
+# Copyright (c) 2013 H W Tovetjärn
 # Copyright (c) 2009 Sebastian Nowicki
 # 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -19,7 +20,7 @@
 # IN THE SOFTWARE.
 
 """
-.. moduleauthor:: Sebastian Nowicki <sebnow@gmail.com>
+.. moduleauthor:: H W Tovetjärn <totte@tott.es>
 
 This module defines two classes which provide information about Pacman
 packages and PKGBUILDs, :class:`PacmanPackage` and :class:`PKGBUILD`. These
@@ -138,7 +139,7 @@ class PacmanPackage(Package):
     To instantiate a :class:`PacmanPackage` object, pass the package's file
     path in the constructor::
 
-        >>> import parched
+        >>> import pluck
         >>> package = PacmanPackage("foo-1.0-1-any.tar.gz")
 
     If *tarfileobj* is specified, it is used as an alternative to a
@@ -270,7 +271,7 @@ class PKGBUILD(Package):
     To instantiate a :class:`PacmanPackage` object, pass the package's file
     path in the constructor::
 
-        >>> import parched
+        >>> import pluck
         >>> package = PKGBUILD("PKGBUILD")
 
     If *fileobj* is specified, it is used as an alternative to a

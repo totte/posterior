@@ -31,15 +31,43 @@ classes iniherit from the :class:`Package` class, which provides the basic
 metadata about package.
 """
 
-import tarfile
+from contextlib import contextmanager
 from datetime import datetime
+from pwd import getpwuid
+import fcntl
+import os
 import re
 import shlex
+import sys
+import tarfile
 
-__all__ = ['Package', 'PacmanPackage', 'PKGBUILD']
+__all__ = ['Repository', 'Package', 'PacmanPackage', 'PKGBUILD']
+
+
+class Repository:
+
+    @contextmanager
+    def lock(lockfile):
+        """
+        Attempt to lock a database by creating a lockfile with the same filename as
+        the database plus a ".lock" suffix, or fail if such a file already exists.
+        """
+        # Optionally look into the "lockfile" module or os.open() (O_EXLOCK not
+        # supported on Linux for previously only being available on BSD).
+        if os.path.exists(lockfile):
+            print('Database is locked with %s' % lockfile, 'which is owned by', getpwuid(os.stat(lockfile).st_uid).pw_name)
+            sys.exit(-1)
+        else:
+            fcntl.flock(open(lockfile, 'w'), fcntl.LOCK_EX | fcntl.LOCK_NB)
+            try:
+                yield
+            finally:
+                os.remove(lockfile)
+
 
 class Package(object):
-    """An abstract package class
+    """
+    An abstract package class
     This class provides no functionality whatsoever. Use either
     :class:`PacmanPackage`, :class:`PKGBUILD`, or another subclass instead.
     
@@ -110,7 +138,6 @@ class Package(object):
         :manpage:`PKGBUILD(5)` for more information.
 
     For more information about these attributes see :manpage:`PKGBUILD(5)`.
-
     """
     def __init__(self, pkgfile):
         super(Package, self).__init__()
@@ -133,7 +160,6 @@ class Package(object):
 
 class PacmanPackage(Package):
     """
-
     The :class:`PacmanPackage` class provides information about a package, by
     parsing a tarball in `pacman <http://www.archlinux.org/pacman>`_ package
     format. This tarball must have a `.PKGINFO` member. This member provides
@@ -187,7 +213,6 @@ class PacmanPackage(Package):
     .. attribute:: files
     
         An array of files contained in the package
-
     """
     def __init__(self, name=None, tarfileobj=None):
         super(PacmanPackage, self).__init__(tarfileobj)
@@ -237,7 +262,9 @@ class PacmanPackage(Package):
         return '%s %s-%s' % (self.name, self.version, self.release)
 
     def _parse(self, pkginfo):
-        """Parse the .PKGINFO file"""
+        """
+        Parse the .PKGINFO file
+        """
         if hasattr(pkginfo, "seek"):
             pkginfo.seek(0)
         for line in pkginfo:
@@ -266,7 +293,8 @@ class PacmanPackage(Package):
 
 
 class PKGBUILD(Package):
-    """A :manpage:`PKGBUILD(5)` parser
+    """
+    A :manpage:`PKGBUILD(5)` parser
 
     The :class:`PKGBUILD` class provides information about a
     package by parsing a :manpage:`PKGBUILD(5)` file.
@@ -325,7 +353,6 @@ class PKGBUILD(Package):
 
         A list of files not to be extracted. These files correspond to
         the basenames of the URIs in :attr:`sources`
-
     """
     _symbol_regex = re.compile(r"\$(?P<name>{[\w\d_]+}|[\w\d]+)")
 
@@ -382,7 +409,9 @@ class PKGBUILD(Package):
             self._symbols[var] = self._clean(value)
 
     def _parse(self, fileobj):
-        """Parse PKGBUILD"""
+        """
+        Parse PKGBUILD
+        """
         if hasattr(fileobj, "seek"):
             fileobj.seek(0)
         parser = shlex.shlex(fileobj, posix=True)
@@ -426,15 +455,21 @@ class PKGBUILD(Package):
             self.release = float(self.release)
 
     def _clean(self, value):
-        """Pythonize a bash string"""
+        """
+        Pythonize a bash string
+        """
         return " ".join(shlex.split(value))
 
     def _clean_array(self, value):
-        """Pythonize a bash array"""
+        """
+        Pythonize a bash array
+        """
         return shlex.split(value.strip('()'))
 
     def _replace_symbol(self, matchobj):
-        """Replace a regex-matched variable with its value"""
+        """
+        Replace a regex-matched variable with its value
+        """
         symbol = matchobj.group('name').strip("{}")
         # If the symbol isn't found fallback to an empty string, like bash
         try:
@@ -445,7 +480,9 @@ class PKGBUILD(Package):
         return self._symbol_regex.sub(self._replace_symbol, value)
 
     def _substitute(self):
-        """Substitute all bash variables within values with their values"""
+        """
+        Substitute all bash variables within values with their values
+        """
         for symbol in self._symbols:
             value = self._symbols[symbol]
             # FIXME: This is icky
@@ -457,7 +494,9 @@ class PKGBUILD(Package):
             self._symbols[symbol] = result
 
     def _assign_local(self):
-        """Assign values from _symbols to PKGBUILD variables"""
+        """
+        Assign values from _symbols to PKGBUILD variables
+        """
         for var in self._symbols:
             value = self._symbols[var]
             if var in self._checksum_fields:

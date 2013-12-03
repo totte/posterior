@@ -26,7 +26,7 @@
 .. moduleauthor:: H W Tovetjärn <totte@tott.es>
 
 This module defines two classes which provide information about Pacman
-packages and PKGBUILDs, :class:`PacmanPackage` and :class:`PKGBUILD`. These
+packages and PKGBUILDs, :class:`Tarball` and :class:`PKGBUILD`. These
 classes iniherit from the :class:`Package` class, which provides the basic
 metadata about package.
 """
@@ -41,7 +41,7 @@ import shlex
 import sys
 import tarfile
 
-__all__ = ['Repository', 'Package', 'PacmanPackage', 'PKGBUILD']
+__all__ = ['Repository', 'Package', 'Tarball', 'PKGBUILD']
 
 
 class Repository:
@@ -69,7 +69,7 @@ class Package(object):
     """
     An abstract package class
     This class provides no functionality whatsoever. Use either
-    :class:`PacmanPackage`, :class:`PKGBUILD`, or another subclass instead.
+    :class:`Tarball`, :class:`PKGBUILD`, or another subclass instead.
     
     The class provides attributes common to all packages. All attributes are
     supposed to be read-only.
@@ -158,18 +158,18 @@ class Package(object):
         self.backup = []
 
 
-class PacmanPackage(Package):
+class Tarball(Package):
     """
-    The :class:`PacmanPackage` class provides information about a package, by
+    The :class:`Tarball` class provides information about a package, by
     parsing a tarball in `pacman <http://www.archlinux.org/pacman>`_ package
     format. This tarball must have a `.PKGINFO` member. This member provides
     all metadata about the package.
 
-    To instantiate a :class:`PacmanPackage` object, pass the package's file
+    To instantiate a :class:`Tarball` object, pass the package's file
     path in the constructor::
 
         >>> import acumen
-        >>> package = PacmanPackage("foo-1.0-1-any.tar.gz")
+        >>> package = Tarball("foo-1.0-1-any.tar.gz")
 
     If *tarfileobj* is specified, it is used as an alternative to a
     :class:`TarFile` like object opened for *name*. It is supposed to be
@@ -178,7 +178,7 @@ class PacmanPackage(Package):
 
         >>> import tarfile
         >>> f = tarfile.open("foo-1.0-1-any.tar.gz", "r|gz")
-        >>> package = PacmanPackage(tarfileobj=f)
+        >>> package = Tarball(tarfileobj=f)
         >>> f.close()
 
     .. note::
@@ -193,7 +193,7 @@ class PacmanPackage(Package):
         "Example package"
     
     In addition to the attributes provided by :class:`Package`,
-    :class:`PacmanPackage` provides the following attributes:
+    :class:`Tarball` provides the following attributes:
     
     .. attribute:: builddate
 
@@ -215,7 +215,7 @@ class PacmanPackage(Package):
         An array of files contained in the package
     """
     def __init__(self, name=None, tarfileobj=None):
-        super(PacmanPackage, self).__init__(tarfileobj)
+        super(Tarball, self).__init__(tarfileobj)
         self.builddate = ""
         self.packager = ""
         self.is_forced = ""
@@ -299,7 +299,7 @@ class PKGBUILD(Package):
     The :class:`PKGBUILD` class provides information about a
     package by parsing a :manpage:`PKGBUILD(5)` file.
 
-    To instantiate a :class:`PacmanPackage` object, pass the package's file
+    To instantiate a :class:`Tarball` object, pass the package's file
     path in the constructor::
 
         >>> import acumen

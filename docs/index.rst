@@ -7,7 +7,7 @@
 .. autoclass:: Package
     :members:
 
-.. autoclass:: PacmanPackage
+.. autoclass:: Tarball
    :members:
 
 .. autoclass:: PKGBUILD

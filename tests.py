@@ -77,9 +77,9 @@ class PackageGenerator(object):
         raise NotImplementedError
 
 
-class PacmanPackageGenerator(PackageGenerator):
+class TarballGenerator(PackageGenerator):
     def __init__(self):
-        super(PacmanPackageGenerator, self).__init__()
+        super(TarballGenerator, self).__init__()
         self.builddate = datetime.utcnow()
         self.size = 0
         self.packager = None
@@ -168,9 +168,9 @@ class PKGBUILDGenerator(PackageGenerator):
         return FileMock("\n".join(content), name)
 
 
-class PacmanPackageTest(unittest.TestCase):
+class TarballTest(unittest.TestCase):
     def setUp(self):
-        self.package = PacmanPackageGenerator()
+        self.package = TarballGenerator()
         self.package.name = "test"
         self.package.version = "1.0"
         self.package.release = 1
@@ -195,7 +195,7 @@ class PacmanPackageTest(unittest.TestCase):
         tarfile = TarFileMock()
         tarfile.add(self.package.as_file())
         tarfile.add(FileMock("foo", "foo.txt"))
-        target = acumen.PacmanPackage(tarfileobj=tarfile)
+        target = acumen.Tarball(tarfileobj=tarfile)
 
         self.assertEquals(self.package.name, target.name)
         self.assertEquals(self.package.version, target.version)

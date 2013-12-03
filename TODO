@@ -1,0 +1,34 @@
+1) Read data from compressed package .PKGINFO
+2) Write to $pkgname-$pkgver/desc:
+   "FILENAME"
+   "NAME"
+   "BASE"
+   "VERSION"
+   "DESC"
+   "GROUPS"
+   "CSIZE"
+   "ISIZE"
+   "MD5SUM"
+   "SHA256SUM"
+   "PGPSIG"
+   "URL"
+   "LICENSE"
+   "ARCH"
+   "BUILDDATE"
+   "PACKAGER"
+   "REPLACES"
+3) Write to $pkgname-$pkgver/depends:
+   "DEPENDS"
+   "CONFLICTS"
+   "PROVIDES"
+   "OPTDEPENDS"
+   "MAKEDEPENDS"
+   "CHECKDEPENDS"
+
+def main():
+    with Repository.lock('/home/totte/foo.lock'):
+        print('Locked for 20 seconds!')
+        time.sleep(20)
+
+if __name__ == "__main__":
+    main()

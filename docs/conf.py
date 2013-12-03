@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# acumen documentation build configuration file, created by
+# posterior documentation build configuration file, created by
 # sphinx-quickstart on Mon Feb  2 15:33:13 2009.
 #
 # This file is execfile()d with the current directory set to its containing dir.
@@ -19,7 +19,7 @@ extensions = ['sphinx.ext.autodoc']
 templates_path = ['_templates']
 source_suffix = '.rst'
 master_doc = 'contents'
-project = u'acumen'
+project = u'posterior'
 copyright = u'2013, H W Tovetjärn'
 version = '0.1'
 release = '0.1.0pre'
@@ -32,4 +32,4 @@ pygments_style = 'sphinx'
 
 html_style = 'default.css'
 html_static_path = ['_static']
-htmlhelp_basename = 'acumendoc'
+htmlhelp_basename = 'posteriordoc'

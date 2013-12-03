@@ -168,7 +168,7 @@ class Tarball(Package):
     To instantiate a :class:`Tarball` object, pass the package's file
     path in the constructor::
 
-        >>> import acumen
+        >>> import posterior
         >>> package = Tarball("foo-1.0-1-any.tar.gz")
 
     If *tarfileobj* is specified, it is used as an alternative to a
@@ -302,7 +302,7 @@ class PKGBUILD(Package):
     To instantiate a :class:`Tarball` object, pass the package's file
     path in the constructor::
 
-        >>> import acumen
+        >>> import posterior
         >>> package = PKGBUILD("PKGBUILD")
 
     If *fileobj* is specified, it is used as an alternative to a

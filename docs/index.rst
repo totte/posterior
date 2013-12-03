@@ -1,9 +1,9 @@
 .. _index:
 
-:mod:`acumen`
-==============
+:mod:`posterior`
+================
 
-.. automodule:: acumen
+.. automodule:: posterior
 .. autoclass:: Package
     :members:
 

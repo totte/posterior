@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
+#
 # Copyright (c) 2013 H W Tovetjärn
 # Copyright (c) 2009 Sebastian Nowicki
 # 

@@ -35,11 +35,15 @@ from contextlib import contextmanager
 from datetime import datetime
 from pwd import getpwuid
 import fcntl
+import io
 import os
 import re
+import requests
 import shlex
+import subprocess
 import sys
 import tarfile
+import time
 
 __all__ = ['Repository', 'Package', 'Tarball', 'PKGBUILD']
 
@@ -63,6 +67,12 @@ class Repository:
                 yield
             finally:
                 os.remove(lockfile)
+
+    def add_package():
+        pass
+
+    def remove_package():
+        pass
 
 
 class Package(object):
@@ -257,6 +267,14 @@ class Tarball(Package):
         self._parse(pkginfo)
         if should_close:
             tarfileobj.close()
+
+        # Alternative...
+        # with tarfile.open(sys.argv[1]) as t:
+        #     content = io.TextIOWrapper(t.extractfile('.PKGINFO'), encoding='utf-8')
+        #     lines = content.readlines()
+        #     for line in lines:
+        #         if not line.startswith("#"):
+        #             print(line.rstrip('\n').split(" = "))
 
     def __str__(self):
         return '%s %s-%s' % (self.name, self.version, self.release)

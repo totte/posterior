@@ -525,3 +525,5 @@ class PKGBUILD(Package):
                     var = self._var_map[var]
                 setattr(self, var, value)
 
+if __name__ == "__main__":
+    print("foo")
